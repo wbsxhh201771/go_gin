@@ -12,11 +12,9 @@ type Config struct {
 		Port string
 	}
 	Database struct {
-		Host     string
-		Port     string
-		User     string
-		Password string
-		Name     string
+		Dsn string
+		maxOpenConns int
+		maxIdleConns int
 	}
 	
 }
@@ -38,6 +36,8 @@ func Initconfig() {
     if err := viper.Unmarshal(Appconfig); err != nil {
 		log.Fatalf("Unable decode to config struct, %v", err)
 	}
+
+	InitDB()
 
 }
 

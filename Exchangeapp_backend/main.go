@@ -2,8 +2,8 @@ package main
 
 import (
 	"backend/config"
+	"backend/router"
 	"fmt"
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -18,9 +18,13 @@ func main() {
 		Msg: "Hello World",
 	}
 	fmt.Println(info) 
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200,info)
-	})
+	r := router.SetupRouter()
+
+	port := config.Appconfig.App.Port
+
+	if port ==""{
+		port = ":8080"
+		fmt.Println("配置文件中端口号为空")
+	}
 	r.Run(config.Appconfig.App.Port) // listen and serve on 0.0.0.0:8080
 }
